@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<base href="."/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>首页-7433 CPS管理后台</title>
+<link href="global.css" rel="stylesheet" type="text/css">
+<link href="index.css" rel="stylesheet" type="text/css">
+<script src="jquery.js"></script>
+
+</head>
+<body >
+    <div id="ntes_login" class="loginForm" style="float:none;margin:0px auto;">
+      <h2 class="s1" style="margin-top:0px;" >登录网站联盟</h2>
+	  
+      <table border="0" cellpadding="0" cellspacing="0" width="245">
+        <form action="index.php/login" method="post" onsubmit="return checksub()">
+		<tbody>
+          <tr>
+            <td width="50"><span class="f14px">账　号</span></td>
+            <td>
+              <input name="username" class="input1" id="tgusername" tabindex="1" size="21" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td><span class="f14px">密　码</span></td>
+            <td>
+              <input size="21" class="input1" id="tgpassword" name="password" tabindex="2" type="password">
+            </td>
+          </tr>
+          <tr>
+            <td><span class="f14px">身　份</span></td>
+            <td>
+              <label>
+                <input name="role" value="tg" checked="checked" type="radio">
+                推广用户</label>
+              &nbsp;&nbsp;
+              <label>
+                <input name="role" id="rolegh" value="gh" type="radio">
+                公会账号</label>
+              <!--<input type="radio" name="role" value="1" data-url="/gs2/union/client/login/">乐嗨嗨通行证--></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <div class="ss">
+                <input class="ibtnLogin" id="tguserloginsb" value="" type="submit">
+                <a href="#" class="underLine" onclick="return unpwd()">忘记密码？</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><a class="ibtnReg" href="#"  onclick="return unreg()"></a></td>
+          </tr>
+          <tr>
+            <td colspan="2"><!--p class="f12px fB textCenter">首月佣金翻倍！</p><p class="f12px fB textCenter">已有&nbsp;<span class="cBrowns f18px regNum">1955</span>&nbsp;人成功加入我们</p--></td>
+          </tr>
+        </tbody>
+		</form>
+      </table>
+	      </div>
+    <script language="javascript" type="text/javascript">
+var gh ='';
+function login(){
+	gh = $('input[name=role]:checked').val(); //alert(gh);
+	$.ajax({
+		url: gh == 'gh' ? "/index.php/Usergh/loginjson" : "/index.php/User/loginjson",
+	    data:{
+	      tgusername:$("#tgusername").val(),
+	      tgpassword:$("#tgpassword").val()
+	    },
+	    type: "POST",
+	    dataType: "json",
+	    success:function(json) {
+	        if(json.status == 'ok'){
+	        	window.location.href=  gh == 'gh' ? "/index.php/Usergh/" : "/index.php/User/";
+	        }else{
+	        	alert(json.info);
+	        }
+	    }
+	});
+}
+$(function(){
+	$("#tguserloginsb").click(function(){ login();	});
+	$("#tgusername").keypress(function(e){ if(e.keyCode == 13){ login();}});
+	$("#tgpassword").keypress(function(e){ if(e.keyCode == 13){ login();}});
+});
+</script>
+
+</body>
+</html>
+<script>
+	function unreg(){
+		alert("注册或审核账号请联系客服");
+		return false;
+	}
+
+	function unpwd(){
+		alert("忘记密码请联系您的专属客服");
+		return false;
+	}
+
+	function checksub(){
+		var username = document.getElementById("tgusername").value;
+		var ulength = username.length;
+		if(ulength<6 || ulength>20){
+			alert("用户名错误（6-20位的字母、数字、下划线）");
+			return false;
+		}else{
+			return true;
+		}
+
+	}
+</script>
